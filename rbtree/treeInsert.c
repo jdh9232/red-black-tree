@@ -22,15 +22,6 @@ void insert_node(Node **t, int data, const char *key)
     Node *n = NULL;	
     Node *temp = *t; // temporary node.
 
-    // n->value = data;
-	// n->color = RED;
-	// n->key = (char *)malloc(sizeof(char)*strlen(key)+1);
-	// //strcpy_s(n->key, strlen(key), key);
-	// strncpy(n->key, key, strlen(key));
-    // n->parent = NULL;
-    // n->left = NULL;
-    // n->right = NULL;
-
     // if there is not any node.
     if(temp == NULL)
     {
