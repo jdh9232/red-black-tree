@@ -1,8 +1,11 @@
 #include "treedisplay.h"
 
-Node* search_node(Node *t, int data)
+Node* search_node(Node *t, int data, const char *key)
 {
-	while(t != NULL && t->value != data)
+	if (t == NULL)
+		return NULL;
+
+	while(t->value != data || (strncmp(t->key, key, strlen(key)) != 0))
     {
         if( t->value > data)
         {

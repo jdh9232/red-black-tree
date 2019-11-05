@@ -91,9 +91,6 @@
     <ClInclude Include="treedisplay.h" />
     <ClInclude Include="treeInsert.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="valgrind-out.txt" />
-  </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

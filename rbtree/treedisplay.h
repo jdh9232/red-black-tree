@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-Node* search_node(Node*, int);
+Node* search_node(Node*, int, const char *);
 void display_node(Node *);
 
 #endif

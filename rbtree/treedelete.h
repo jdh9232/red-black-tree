@@ -4,10 +4,12 @@
 #include "common.h"
 #include "treedisplay.h"
 
-void delete_node(Node **, int);
+void delete_node(Node **, int, const char *);
 void destroy_node(Node **);
 
-void delete_one_child(Node **);
+void replace_node(Node *, Node *);
+//void replace_node(Node **, Node *);
+void delete_one_child(Node *);
 
 void delete_case1(Node **);
 void delete_case2(Node **);

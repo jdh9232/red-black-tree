@@ -24,10 +24,15 @@ https://leeyongjeon.tistory.com/entry/C%EC%96%B8%EC%96%B4-%EC%9D%B4%EC%A7%84-%ED
 #include <time.h>
 #include <unistd.h>
 
-#define MYDEBUG(fmt, ...)\
-{ printf("[%s:%d] %s "fmt, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 #define true 1
 #define false 0
+#define STR_EQUAL 0
+#define STR_BIG 1
+#define STR_SMALL -1
+
+//디버그 로그출력 매크로
+#define MYDEBUG(fmt, ...)\
+{ printf("[%s:%d] %s "fmt, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); }
 
 typedef enum { BLACK = 1, RED = -1, null = 0 } color_t;
 
@@ -42,8 +47,6 @@ struct node {
   int value;
 };
 
-extern const Node * LEAF;
-
 //할아버지노드
 Node* GetGrandParent(Node *);
 //할아버지의 다른 자식 -> 삼촌노드
@@ -52,7 +55,6 @@ Node* GetUncle(Node *);
 Node* GetSibling(Node *);
 //리프 체크
 int is_leaf(Node *);
-void replace_node(Node **, Node *);
 
 //node rotate
 void rotate_left(Node **);

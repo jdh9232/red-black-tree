@@ -1,12 +1,12 @@
 #include "treedelete.h"
 
-void delete_node(Node **t, int data)
+void delete_node(Node **t, int data, const char *key)
 {
     Node *temp = NULL;
     Node *p = NULL;
    
     // find the node that has the data.
-    temp = search_node(*t, data);
+    temp = search_node(*t, data, key);
 
     // if there is not data.
     if(temp == NULL)
@@ -14,58 +14,63 @@ void delete_node(Node **t, int data)
         printf("Can't find the data!\n");
         return;
     }
+	else
+	{
+		delete_one_child(temp);
+	}
 
-    // if the node that has the data don't have children.
-    if(temp->left == NULL && temp->right == NULL)
-    {
-        if(temp == *t)
-        {
-            *t  = NULL;
-        }
-        else if((temp->parent)->value > data)
-        {
-            (temp->parent)->left = NULL;
-        }
-        else
-        {
-            (temp->parent)->right = NULL;
-        }
+  //  // if the node that has the data don't have children.
+  //  if(temp->left == NULL && temp->right == NULL)
+  //  {
+		//delete_one_child(temp);
+  //      /*if(temp == *t)
+  //      {
+  //          *t  = NULL;
+  //      }
+  //      else if((temp->parent)->value > data)
+  //      {
+  //          (temp->parent)->left = NULL;
+  //      }
+  //      else
+  //      {
+  //          (temp->parent)->right = NULL;
+  //      }
 
-        free(temp);
-		temp = NULL;
-    }
-    // if the node don't have a left child.
-    else if(temp->left == NULL)
-    {
-        temp->value = (temp->right)->value;
-       
-        delete_node( &(temp->right), (temp->right)->value);
-    }
-    // if the node don't have a right child.
-    else if(temp->right == NULL)
-    {
-        temp->value = (temp->left)->value;
-       
-        delete_node( &(temp->left), (temp->left)->value);
-    }
-    else // if the node have children.
-    {
-        p = temp;
+  //      free(temp);
+		//temp = NULL;*/
+  //  }
+  //  // if the node don't have a left child.
+  //  else if(temp->left == NULL)
+  //  {
+  //      temp->value = (temp->right)->value;
+  //     
+  //      delete_node( &(temp->right), (temp->right)->value, key);
+  //  }
+  //  // if the node don't have a right child.
+  //  else if(temp->right == NULL)
+  //  {
+  //      temp->value = (temp->left)->value;
+  //     
+  //      delete_node( &(temp->left), (temp->left)->value, key);
+  //  }
+  //  else // if the node have children.
+  //  {
+  //      p = temp;
 
-        temp = temp->right;
+  //      temp = temp->right;
 
-        while(temp->left != NULL)
-        {
-            temp = temp->left;
-        }
+  //      while(temp->left != NULL)
+  //      {
+  //          temp = temp->left;
+  //      }
 
-        p->value = temp->value;
+  //      p->value = temp->value;
 
-        delete_node(&(p->right), temp->value);
-    }
+  //      delete_node(&(p->right), temp->value, key);
+  //  }
 }
 
-void destroy_node(Node ** t)
+void destroy_node(Node **t)
 {
 	if((*t) == NULL)
 	{
@@ -86,8 +91,57 @@ void destroy_node(Node ** t)
 	return ;
 }
 
-void delete_one_child(Node **n)
+void replace_node(Node *n, Node *child)
 {
+	child->parent = n->parent;
+	if (n->parent->left == n)
+	{
+		n->parent->left = child;
+	}
+	else if (n->parent->right == n)
+	{
+		n->parent->right = child;
+	}
+}
+//void replace_node(Node **n, Node *child)
+//{
+//	child->parent = (*n)->parent;
+//	if ((*n) == (*n)->parent->left)
+//		(*n)->parent->left = child;
+//	else if ((*n)->parent->right == (*n))
+//		(*n)->parent->right = child;
+//}
+
+void delete_one_child(Node *n)
+{
+	if (n->right == NULL && n->left == NULL)
+	{
+		if (n->color == BLACK)
+		{
+			delete_case1(n);
+		}
+		free(n);
+		n = NULL;
+	}
+	else
+	{
+		Node* child = is_leaf(n->right) ? n->left : n->right;
+		replace_node(n, child);
+		if (n->color == BLACK)
+		{
+			if (child->color == RED)
+			{
+				child->color = BLACK;
+			}
+			else
+			{
+				delete_case1(n);
+			}
+		}
+		free(n);
+		n = NULL;
+	}
+	
 	//Node *child = is_leaf((*n)->right) ? (*n)->left:(*n)->right;
 }
 

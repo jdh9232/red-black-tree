@@ -1,6 +1,6 @@
 #include "common.h"
 
-const Node *LEAF = NULL;
+const Node* LEAF = NULL;
 
 Node* GetGrandParent(Node *n)
 {
@@ -40,19 +40,9 @@ Node* GetSibling(Node *n)
 	}
 }
 
-int is_leaf(Node *n)
+int is_leaf(Node* n)
 {
 	return (n == LEAF) ? true : false;
-	return 0;
-}
-
-void replace_node(Node **n, Node *child)
-{
-	child->parent = (*n)->parent;
-    if ((*n) == (*n)->parent->left)
-        (*n)->parent->left = child;
-    else if ((*n)->parent->right == (*n))
-        (*n)->parent->right = child;
 }
 
 
