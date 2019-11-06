@@ -2,9 +2,17 @@
 
 const Node* LEAF = NULL;
 
-void scanfHandling()
+void help()
 {
-
+	printf("/insert [key] [value]\n");
+	printf("íŠ¸ë¦¬ì— [key] [value]ë¥¼ ì‚½ìž…í•©ë‹ˆë‹¤.\n\n");
+	printf("/display\n");
+	printf("í˜„ìž¬ íŠ¸ë¦¬ì— ì‚½ìž…ëœ ì •ë³´ë¥¼ ë³´ì—¬ì¤ë‹ˆë‹¤.\n\n");
+	printf("/destroy\n");
+	printf("íŠ¸ë¦¬ì˜ ëª¨ë“  ê°’ì„ ì œê±°í•©ë‹ˆë‹¤.\n\n");
+	printf("/quit\n");
+	printf("/exit\n");
+	printf("/destoryëª…ë ¹ì„ ìžë™ ì‹¤í–‰ í›„ í”„ë¡œê·¸ëž¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n\n");
 }
 
 Node* GetGrandParent(Node* n)
@@ -51,58 +59,58 @@ int is_leaf(Node* n)
 }
 
 
-void rotate_left(Node** n)    //nÀ» ºÎ¸ð
+void rotate_left(Node** n)    //nì„ ë¶€ëª¨
 {
-	Node* nnew = (*n)->right; //nnew¸¦ ÀÚ½Ä
-	Node* p = (*n)->parent;   //p¸¦ ÇÒ¾Æ¹öÁö
+	Node* nnew = (*n)->right; //nnewë¥¼ ìžì‹
+	Node* p = (*n)->parent;   //pë¥¼ í• ì•„ë²„ì§€
 
-	if (nnew->left != NULL)      //ÀÚ½Ä³ëµåÀÇ ¿ÞÂÊ ³ëµå°¡ ÀÖÀ¸¸é
+	if (nnew->left != NULL)      //ìžì‹ë…¸ë“œì˜ ì™¼ìª½ ë…¸ë“œê°€ ìžˆìœ¼ë©´
 	{
-		nnew->left->parent = (*n); //¼¼´ë±³Ã¼¸¦ ´ëºñÇØ ¹Ì¸® ÀÚ½Ä³ëµåÀÇ ¿ÞÂÊ->ºÎ¸ð¸¦ ±âÁ¸ ºÎ¸ð·Î ¼³Á¤
+		nnew->left->parent = (*n); //ì„¸ëŒ€êµì²´ë¥¼ ëŒ€ë¹„í•´ ë¯¸ë¦¬ ìžì‹ë…¸ë“œì˜ ì™¼ìª½->ë¶€ëª¨ë¥¼ ê¸°ì¡´ ë¶€ëª¨ë¡œ ì„¤ì •
 	}
-	(*n)->right = nnew->left;   //ÀÚ½Ä³ëµåÀÇ ¿ÞÂÊÀ» ºÎ¸ðÀÇ ¿À¸¥ÂÊÀ¸·Î (ºÎ¸ðÀÇ ¿À¸¥ÂÊ Á¤º¸(ÀÚ½Ä)ÀÌ »ç¶óÁü. ÀÚ½Ä°ú °áº° ¼±¾ð)
-	(*n)->parent = nnew;        //ºýÄ£ ÀÚ½ÄÀÌ ºÎ¸ð¸¦ ÀÚ½ÄÀ¸·Î ¹Ù²Ù´Â(ÆÐ·û) °úÁ¤¿¡¼­ ÇÒ¾Æ¹öÁö°¡ »ç¶óÁü. (ÇÒ¾Æ¹öÁö Àá½Ã p¿¡ °è¼¼¿ä. ´çºÐ°£ ¼Ò¶õ½º·¯¿ï °Ì´Ï´Ù.)
-	nnew->left = (*n);          //À§ÂÊ¿¡¼­ nÀÇ ºÎ¸ð°¡ ÀÚ½ÄÀÌ µÇ´Â ÆÐ·ûÀ» ÀúÁú·¶À¸´Ï Á·º¸¸¦ ´Ù½Ã Á¤»óÀûÀ¸·Î ¸¸µé±â À§ÇØ¼± ÀÚ½ÄÀÇ ¿ÞÂÊ¿¡´Ù ºÎ¸ð¸¦ ¿¬°á½ÃÄÑÁà¾ß°ÚÁê?
-	nnew->parent = p;           //ÆÐ·ûÇÏ´Â °úÁ¤¿¡¼­ »ç¶óÁ³´ø ÇÒ¾Æ¹öÁö (¿ø·¡ ºÎ¸ðÀÇ ºÎ¸ð)¸¦ ÀÚ½ÄÀÌ µ¥·Á¿È.
-	if (p != NULL)               //µ¥·Á¿Ô´ø ±× ÇÒ¾Æ¹öÁö°¡ Á¸ÀçÇÏ¸é Á·º¸ Àç¼³Á¤
+	(*n)->right = nnew->left;   //ìžì‹ë…¸ë“œì˜ ì™¼ìª½ì„ ë¶€ëª¨ì˜ ì˜¤ë¥¸ìª½ìœ¼ë¡œ (ë¶€ëª¨ì˜ ì˜¤ë¥¸ìª½ ì •ë³´(ìžì‹)ì´ ì‚¬ë¼ì§. ìžì‹ê³¼ ê²°ë³„ ì„ ì–¸)
+	(*n)->parent = nnew;        //ë¹¡ì¹œ ìžì‹ì´ ë¶€ëª¨ë¥¼ ìžì‹ìœ¼ë¡œ ë°”ê¾¸ëŠ”(íŒ¨ë¥œ) ê³¼ì •ì—ì„œ í• ì•„ë²„ì§€ê°€ ì‚¬ë¼ì§. (í• ì•„ë²„ì§€ ìž ì‹œ pì— ê³„ì„¸ìš”. ë‹¹ë¶„ê°„ ì†Œëž€ìŠ¤ëŸ¬ìš¸ ê²ë‹ˆë‹¤.)
+	nnew->left = (*n);          //ìœ„ìª½ì—ì„œ nì˜ ë¶€ëª¨ê°€ ìžì‹ì´ ë˜ëŠ” íŒ¨ë¥œì„ ì €ì§ˆë €ìœ¼ë‹ˆ ì¡±ë³´ë¥¼ ë‹¤ì‹œ ì •ìƒì ìœ¼ë¡œ ë§Œë“¤ê¸° ìœ„í•´ì„  ìžì‹ì˜ ì™¼ìª½ì—ë‹¤ ë¶€ëª¨ë¥¼ ì—°ê²°ì‹œì¼œì¤˜ì•¼ê² ì¥¬?
+	nnew->parent = p;           //íŒ¨ë¥œí•˜ëŠ” ê³¼ì •ì—ì„œ ì‚¬ë¼ì¡Œë˜ í• ì•„ë²„ì§€ (ì›ëž˜ ë¶€ëª¨ì˜ ë¶€ëª¨)ë¥¼ ìžì‹ì´ ë°ë ¤ì˜´.
+	if (p != NULL)               //ë°ë ¤ì™”ë˜ ê·¸ í• ì•„ë²„ì§€ê°€ ì¡´ìž¬í•˜ë©´ ì¡±ë³´ ìž¬ì„¤ì •
 	{
-		//Àß¸øµÈ ÄÚµå
-		if (nnew->left == p->left) {    //ÇÒ¾Æ¹öÁöÀÇ ¿ÞÂÊÀÌ ±âÁ¸ºÎ¸ð¿´À¸¸é?
-			p->left = nnew;     //ÇÒ¾Æ¹öÁöÀÇ ¿ÞÂÊÀ» ÀÚ½ÄÀ¸·Î ´Ù½Ã Àç¼³Á¤.
+		//ìž˜ëª»ëœ ì½”ë“œ
+		if (nnew->left == p->left) {    //í• ì•„ë²„ì§€ì˜ ì™¼ìª½ì´ ê¸°ì¡´ë¶€ëª¨ì˜€ìœ¼ë©´?
+			p->left = nnew;     //í• ì•„ë²„ì§€ì˜ ì™¼ìª½ì„ ìžì‹ìœ¼ë¡œ ë‹¤ì‹œ ìž¬ì„¤ì •.
 			//(*n) = (*n) -> parent;
 		}
-		else {                   //±×°Ô ¾Æ´Ï°í ÇÒ¾Æ¹öÁöÀÇ ¿À¸¥ÂÊÀÌ ±âÁ¸ ºÎ¸ð¿´À¸¸é?
-			p->right = nnew;    //ÇÒ¾Æ¹öÁöÀÇ ¿À¸¥ÂÊÀ» ÀÚ½ÄÀ¸·Î ´Ù½Ã Àç¼³Á¤.
+		else {                   //ê·¸ê²Œ ì•„ë‹ˆê³  í• ì•„ë²„ì§€ì˜ ì˜¤ë¥¸ìª½ì´ ê¸°ì¡´ ë¶€ëª¨ì˜€ìœ¼ë©´?
+			p->right = nnew;    //í• ì•„ë²„ì§€ì˜ ì˜¤ë¥¸ìª½ì„ ìžì‹ìœ¼ë¡œ ë‹¤ì‹œ ìž¬ì„¤ì •.
 		}
 	}
-	//¿ÏÀü¹üÁË ÆÐ·û½ºÅä¸® ¿Ï·á
+	//ì™„ì „ë²”ì£„ íŒ¨ë¥œìŠ¤í† ë¦¬ ì™„ë£Œ
 }
 
 void rotateleft(Node* n)
 {
-	Node* nnew = n->right; //nnew¸¦ ÀÚ½Ä
-	Node* p = n->parent;   //p¸¦ ÇÒ¾Æ¹öÁö
+	Node* nnew = n->right; //nnewë¥¼ ìžì‹
+	Node* p = n->parent;   //pë¥¼ í• ì•„ë²„ì§€
 
-	if (nnew->left != NULL)      //ÀÚ½Ä³ëµåÀÇ ¿ÞÂÊ ³ëµå°¡ ÀÖÀ¸¸é
+	if (nnew->left != NULL)      //ìžì‹ë…¸ë“œì˜ ì™¼ìª½ ë…¸ë“œê°€ ìžˆìœ¼ë©´
 	{
-		nnew->left->parent = n; //¼¼´ë±³Ã¼¸¦ ´ëºñÇØ ¹Ì¸® ÀÚ½Ä³ëµåÀÇ ¿ÞÂÊ->ºÎ¸ð¸¦ ±âÁ¸ ºÎ¸ð·Î ¼³Á¤
+		nnew->left->parent = n; //ì„¸ëŒ€êµì²´ë¥¼ ëŒ€ë¹„í•´ ë¯¸ë¦¬ ìžì‹ë…¸ë“œì˜ ì™¼ìª½->ë¶€ëª¨ë¥¼ ê¸°ì¡´ ë¶€ëª¨ë¡œ ì„¤ì •
 	}
-	n->right = nnew->left;   //ÀÚ½Ä³ëµåÀÇ ¿ÞÂÊÀ» ºÎ¸ðÀÇ ¿À¸¥ÂÊÀ¸·Î (ºÎ¸ðÀÇ ¿À¸¥ÂÊ Á¤º¸(ÀÚ½Ä)ÀÌ »ç¶óÁü. ÀÚ½Ä°ú °áº° ¼±¾ð)
-	n->parent = nnew;        //ºýÄ£ ÀÚ½ÄÀÌ ºÎ¸ð¸¦ ÀÚ½ÄÀ¸·Î ¹Ù²Ù´Â(ÆÐ·û) °úÁ¤¿¡¼­ ÇÒ¾Æ¹öÁö°¡ »ç¶óÁü. (ÇÒ¾Æ¹öÁö Àá½Ã p¿¡ °è¼¼¿ä. ´çºÐ°£ ¼Ò¶õ½º·¯¿ï °Ì´Ï´Ù.)
-	nnew->left = n;          //À§ÂÊ¿¡¼­ nÀÇ ºÎ¸ð°¡ ÀÚ½ÄÀÌ µÇ´Â ÆÐ·ûÀ» ÀúÁú·¶À¸´Ï Á·º¸¸¦ ´Ù½Ã Á¤»óÀûÀ¸·Î ¸¸µé±â À§ÇØ¼± ÀÚ½ÄÀÇ ¿ÞÂÊ¿¡´Ù ºÎ¸ð¸¦ ¿¬°á½ÃÄÑÁà¾ß°ÚÁê?
-	nnew->parent = p;           //ÆÐ·ûÇÏ´Â °úÁ¤¿¡¼­ »ç¶óÁ³´ø ÇÒ¾Æ¹öÁö (¿ø·¡ ºÎ¸ðÀÇ ºÎ¸ð)¸¦ ÀÚ½ÄÀÌ µ¥·Á¿È.
-	if (p != NULL)               //µ¥·Á¿Ô´ø ±× ÇÒ¾Æ¹öÁö°¡ Á¸ÀçÇÏ¸é Á·º¸ Àç¼³Á¤
+	n->right = nnew->left;   //ìžì‹ë…¸ë“œì˜ ì™¼ìª½ì„ ë¶€ëª¨ì˜ ì˜¤ë¥¸ìª½ìœ¼ë¡œ (ë¶€ëª¨ì˜ ì˜¤ë¥¸ìª½ ì •ë³´(ìžì‹)ì´ ì‚¬ë¼ì§. ìžì‹ê³¼ ê²°ë³„ ì„ ì–¸)
+	n->parent = nnew;        //ë¹¡ì¹œ ìžì‹ì´ ë¶€ëª¨ë¥¼ ìžì‹ìœ¼ë¡œ ë°”ê¾¸ëŠ”(íŒ¨ë¥œ) ê³¼ì •ì—ì„œ í• ì•„ë²„ì§€ê°€ ì‚¬ë¼ì§. (í• ì•„ë²„ì§€ ìž ì‹œ pì— ê³„ì„¸ìš”. ë‹¹ë¶„ê°„ ì†Œëž€ìŠ¤ëŸ¬ìš¸ ê²ë‹ˆë‹¤.)
+	nnew->left = n;          //ìœ„ìª½ì—ì„œ nì˜ ë¶€ëª¨ê°€ ìžì‹ì´ ë˜ëŠ” íŒ¨ë¥œì„ ì €ì§ˆë €ìœ¼ë‹ˆ ì¡±ë³´ë¥¼ ë‹¤ì‹œ ì •ìƒì ìœ¼ë¡œ ë§Œë“¤ê¸° ìœ„í•´ì„  ìžì‹ì˜ ì™¼ìª½ì—ë‹¤ ë¶€ëª¨ë¥¼ ì—°ê²°ì‹œì¼œì¤˜ì•¼ê² ì¥¬?
+	nnew->parent = p;           //íŒ¨ë¥œí•˜ëŠ” ê³¼ì •ì—ì„œ ì‚¬ë¼ì¡Œë˜ í• ì•„ë²„ì§€ (ì›ëž˜ ë¶€ëª¨ì˜ ë¶€ëª¨)ë¥¼ ìžì‹ì´ ë°ë ¤ì˜´.
+	if (p != NULL)               //ë°ë ¤ì™”ë˜ ê·¸ í• ì•„ë²„ì§€ê°€ ì¡´ìž¬í•˜ë©´ ì¡±ë³´ ìž¬ì„¤ì •
 	{
-		//Àß¸øµÈ ÄÚµå
-		if (nnew->left == p->left) {    //ÇÒ¾Æ¹öÁöÀÇ ¿ÞÂÊÀÌ ±âÁ¸ºÎ¸ð¿´À¸¸é?
-			p->left = nnew;     //ÇÒ¾Æ¹öÁöÀÇ ¿ÞÂÊÀ» ÀÚ½ÄÀ¸·Î ´Ù½Ã Àç¼³Á¤.
+		//ìž˜ëª»ëœ ì½”ë“œ
+		if (nnew->left == p->left) {    //í• ì•„ë²„ì§€ì˜ ì™¼ìª½ì´ ê¸°ì¡´ë¶€ëª¨ì˜€ìœ¼ë©´?
+			p->left = nnew;     //í• ì•„ë²„ì§€ì˜ ì™¼ìª½ì„ ìžì‹ìœ¼ë¡œ ë‹¤ì‹œ ìž¬ì„¤ì •.
 			n = n->left;
 		}
-		else {                   //±×°Ô ¾Æ´Ï°í ÇÒ¾Æ¹öÁöÀÇ ¿À¸¥ÂÊÀÌ ±âÁ¸ ºÎ¸ð¿´À¸¸é?
-			p->right = nnew;    //ÇÒ¾Æ¹öÁöÀÇ ¿À¸¥ÂÊÀ» ÀÚ½ÄÀ¸·Î ´Ù½Ã Àç¼³Á¤.
+		else {                   //ê·¸ê²Œ ì•„ë‹ˆê³  í• ì•„ë²„ì§€ì˜ ì˜¤ë¥¸ìª½ì´ ê¸°ì¡´ ë¶€ëª¨ì˜€ìœ¼ë©´?
+			p->right = nnew;    //í• ì•„ë²„ì§€ì˜ ì˜¤ë¥¸ìª½ì„ ìžì‹ìœ¼ë¡œ ë‹¤ì‹œ ìž¬ì„¤ì •.
 		}
 	}
-	//¿ÏÀü¹üÁË ÆÐ·û½ºÅä¸® ¿Ï·á
+	//ì™„ì „ë²”ì£„ íŒ¨ë¥œìŠ¤í† ë¦¬ ì™„ë£Œ
 }
 
 void rotate_right(Node** n)

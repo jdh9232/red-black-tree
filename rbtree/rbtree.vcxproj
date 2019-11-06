@@ -51,7 +51,7 @@
     <ClInclude Include="rbtree\treeInsert.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="readme\readme.md" />
+    <None Include=".editorconfig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0d6e3109-40b2-4f2b-83c3-b09e405a1975}</ProjectGuid>

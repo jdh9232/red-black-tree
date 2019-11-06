@@ -1,6 +1,6 @@
 #include "linkedlist.h"
 
-//¾ç¹æÇâ ¸®½ºÆ®´Â ÃßÈÄ °úÁ¦¿¡ ÇÊ¿äÇÒ ‹š ¾÷µ¥ÀÌÆ® ¿¹Á¤
+//ì–‘ë°©í–¥ ë¦¬ìŠ¤íŠ¸ëŠ” ì¶”í›„ ê³¼ì œì— í•„ìš”í•  ë–„ ì—…ë°ì´íŠ¸ ì˜ˆì •
 void LInit(List** list)
 {
 	(*list) = (List*)malloc(sizeof(List));
@@ -43,7 +43,7 @@ ListNode* LGetValue(List* list, int value)
 //int LAppend(List** list, int value)
 //{
 //	ListNode* newNode = NULL;
-//	//°ªÀÌ Á¸ÀçÇÏ¸é »ðÀÔX.
+//	//ê°’ì´ ì¡´ìž¬í•˜ë©´ ì‚½ìž…X.
 //	if ((*list)->head == NULL)
 //	{
 //		CreateList(&newNode, value);
@@ -62,18 +62,18 @@ ListNode* LGetValue(List* list, int value)
 //	return true;
 //}
 
-//Á¤·ÄÇÏ¸é¼­ Ãß°¡
+//ì •ë ¬í•˜ë©´ì„œ ì¶”ê°€
 int LAppendSort(List** list, int value)
 {
 	ListNode* newNode = NULL;
-	//°ªÀÌ Á¸ÀçÇÏ¸é »ðÀÔX.
+	//ê°’ì´ ì¡´ìž¬í•˜ë©´ ì‚½ìž…X.
 	if ((*list)->head == NULL)
 	{
 		CreateList(&newNode, value);
 		(*list)->head = newNode;
 		(*list)->tail = newNode;
 	}
-	//Ã¹¹øÂ° °ªº¸´Ù ÀÛÀ¸¸é Áßº¹µÇ´Â °ªÀº ¾øÀ½.
+	//ì²«ë²ˆì§¸ ê°’ë³´ë‹¤ ìž‘ìœ¼ë©´ ì¤‘ë³µë˜ëŠ” ê°’ì€ ì—†ìŒ.
 	else if ((*list)->head->data > value)
 	{
 		CreateList(&newNode, value);

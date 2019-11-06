@@ -20,7 +20,7 @@ Referenced - Binary Tree
 https://leeyongjeon.tistory.com/entry/C%EC%96%B8%EC%96%B4-%EC%9D%B4%EC%A7%84-%ED%83%90%EC%83%89-%ED%8A%B8%EB%A6%ACBinary-Search-Trees-in-C
 */
 
-typedef enum { BLACK = 1, RED = -1, null = 0 } color_t;
+typedef enum { BLACK = 1, RED = -1 } color_t;
 
 typedef struct node Node;
 struct node {
@@ -33,15 +33,15 @@ struct node {
 	List* values;
 };
 
-void scanfHandling();
+void help();
 
-//ÇÒ¾Æ¹öÁö³ëµå
+//í• ì•„ë²„ì§€ë…¸ë“œ
 Node* GetGrandParent(Node*);
-//ÇÒ¾Æ¹öÁöÀÇ ´Ù¸¥ ÀÚ½Ä -> »ïÃÌ³ëµå
+//í• ì•„ë²„ì§€ì˜ ë‹¤ë¥¸ ìì‹ -> ì‚¼ì´Œë…¸ë“œ
 Node* GetUncle(Node*);
-//ºÎ¸ğÀÇ ´Ù¸¥ ÀÚ½Ä -> ÇüÁ¦³ëµå
+//ë¶€ëª¨ì˜ ë‹¤ë¥¸ ìì‹ -> í˜•ì œë…¸ë“œ
 Node* GetSibling(Node*);
-//¸®ÇÁ Ã¼Å©
+//ë¦¬í”„ ì²´í¬
 int is_leaf(Node*);
 
 //node rotate
@@ -49,7 +49,7 @@ void rotate_left(Node**);
 void rotateleft(Node*);
 void rotate_right(Node**);
 
-//rotate¸¦ ÅëÇÑ Root Change
+//rotateë¥¼ í†µí•œ Root Change
 void ChangeRoot(Node**);
 
 #endif

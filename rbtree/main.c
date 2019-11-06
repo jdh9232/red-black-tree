@@ -6,7 +6,7 @@ int main()
 {
 	Node *node = NULL;
 
-	insert_node(&node, "a", 1);
+	/*insert_node(&node, "a", 1);
 	insert_node(&node, "b", 2);
 	insert_node(&node, "c", 3);
 	insert_node(&node, "d", 4);
@@ -18,21 +18,88 @@ int main()
 	insert_node(&node, "b", 1);
 	insert_node(&node, "c", 2);
 	insert_node(&node, "aa", 1);
-	insert_node(&node, "b", 1);
+	insert_node(&node, "b", 1);*/
+
 	/*display_node(node, 0);
 	printf("===========================================\n");*/
 
-	//ï¾ Ù¤ - Íı ÙÊ ï½ Şû
+	//çµ¶ å‘½ - æœ æœ¨ ç¯€ å‰Š
 	//delete_node(&node, "g", 3);
 	//display_node(node);
 	//printf("===========================================\n");
 
 
-	//çó ëù : Á¨ ºÎ »ş ¾² - Æ® ¸® ÆÄ ±«
-	destroy_node(&node);
+	//å¥§ ç¾© : ì   ë¶€ ìƒ¤ ì“° - íŠ¸ ë¦¬ íŒŒ ê´´
+	/*destroy_node(&node);
 	display_node(node, 0);
 	printf("===========================================\n");
-	return 0;
+	return 0;*/
+
+	while (true)
+	{
+		system("clear");
+		printf("input [key value] : ");
+		char buf[100];
+		fgets(buf, sizeof(buf), stdin);
+		buf[strlen(buf) - 1] = null;
+		char* split = strtok(buf, " ");
+
+		const char* comstr = split;
+		if (strncmp(comstr, "/quit", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/QUIT", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/exit", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/EXIT", strlen(comstr)) == STR_EQUAL)
+		{
+			destroy_node(&node);
+			return 0;
+		}
+		else if (strncmp(comstr, "/insert", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/insert", strlen(comstr)) == STR_EQUAL)
+		{
+			split = strtok(NULL, " ");
+			const char* key = split;
+			if (key != NULL)
+			{
+				split = strtok(NULL, " ");
+				if (split != NULL)
+				{
+					int value = atoi(split);
+					insert_node(&node, key, value);
+					printf("ì‚½ì… ì„±ê³µ\n");
+				}
+				else
+				{
+					printf("ì˜ëª»ëœ ì¸ìˆ˜ì…ë‹ˆë‹¤.\n");
+				}
+			}
+			else
+			{
+				printf("ì˜ëª»ëœ ì¸ìˆ˜ì…ë‹ˆë‹¤.\n");
+			}
+		}
+		else if (strncmp(comstr, "/display", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/DISPLAY", strlen(comstr)) == STR_EQUAL)
+		{
+			display_node(node, 0);
+		}
+		else if (strncmp(comstr, "/destroy", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/DESTROY", strlen(comstr)) == STR_EQUAL)
+		{
+			destroy_node(&node);
+			printf("ì‚­ì œ ì„±ê³µ\n");
+		}
+		else if (strncmp(comstr, "/help", strlen(comstr)) == STR_EQUAL ||
+			strncmp(comstr, "/HELP", strlen(comstr)) == STR_EQUAL)
+		{
+			help();
+		}
+		else
+		{
+			printf("ëª…ë ¹ì–´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤..\n");
+			printf("/helpë¥¼ ëˆŒëŸ¬ ëª…ë ¹ì–´ë¥¼ ì°¾ì•„ë³´ì„¸ìš”.\n");
+		}
+		getchar();
+	}
 }
 
 /*
@@ -40,7 +107,8 @@ valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -
 */
 
 /*
-1. ÆÄÀÏ, ÇÔ¼ö ±¸Á¶ ¹Ù²Ù±â (¿Ï·á)
-2. displayÇÔ¼ö depth Ç¥½Ã (¿Ï·á)
-3. scanf¿¡¼­ Á÷Á¢ ÀÔ·Â
+1. íŒŒì¼, í•¨ìˆ˜ êµ¬ì¡° ë°”ê¾¸ê¸° (ì™„ë£Œ)
+2. displayí•¨ìˆ˜ depth í‘œì‹œ (ì™„ë£Œ)
+3. scanfì—ì„œ ì§ì ‘ ì…ë ¥
+//read -n 1 -s -r -p "Press any key to continue";echo
 */
