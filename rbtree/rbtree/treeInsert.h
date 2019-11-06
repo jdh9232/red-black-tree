@@ -1,7 +1,7 @@
 #ifndef RB_INSERT_H
 #define RB_INSERT_H
 
-#include "common.h"
+#include "rbtree.h"
 
 /*
 1. 노드는 레드 혹은 블랙 중의 하나이다.
@@ -11,10 +11,11 @@
 5. 어떤 노드로부터 시작되어 리프 노드에 도달하는 모든 경로에는 리프 노드를 제외하면 모두 같은 개수의 블랙 노드가 있다.
 */
 
-void create_node(Node **, int, const char *);
+void create_listnode(List**, int);
+void create_node(Node **, const char *, int);
 
 //insert_node로 인해 모든 노드의 color는 RED의 초깃값을 가짐.
-void insert_node(Node**, int, const char *);
+void insert_node(Node**, const char *, int);
 
 //Level1 : 루트노드가 아닐 경우 ↓
 //루트노드일 경우 insert_case1 실행

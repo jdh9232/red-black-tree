@@ -1,7 +1,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_C
 
-#include "common.h"
+#include "../common.h"
+//https://neohtux.tistory.com/53
 
 typedef struct linkedlist ListNode;
 typedef struct saveNode List;
@@ -18,12 +19,11 @@ struct saveNode
 	ListNode* tail;
 };
 
-
-void Init(List**);
+void LInit(List**);
 
 //create and insert
 void CreateList(ListNode**, int);
-int LAppend(List**, int);
+//int LAppend(List**, int);
 int LAppendSort(List**, int);
 //void LInsertLEN(List**, int, int);
 //void LInsertValue(List**, int, int);

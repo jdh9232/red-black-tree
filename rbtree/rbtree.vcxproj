@@ -35,13 +35,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="common.c" />
-    <ClCompile Include="linkedlist.c" />
-    <ClCompile Include="linkedmain.c" />
+    <ClCompile Include="linked_list\linkedlist.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="rbtree\rbtree.c" />
+    <ClCompile Include="rbtree\treedelete.c" />
+    <ClCompile Include="rbtree\treedisplay.c" />
+    <ClCompile Include="rbtree\treeInsert.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
-    <ClInclude Include="linkedlist.h" />
+    <ClInclude Include="linked_list\linkedlist.h" />
+    <ClInclude Include="rbtree\rbtree.h" />
+    <ClInclude Include="rbtree\treedelete.h" />
+    <ClInclude Include="rbtree\treedisplay.h" />
+    <ClInclude Include="rbtree\treeInsert.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme\readme.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0d6e3109-40b2-4f2b-83c3-b09e405a1975}</ProjectGuid>
@@ -86,6 +96,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <RemoteCCompileToolExe>gcc</RemoteCCompileToolExe>
+    <RemoteLdToolExe>gcc</RemoteLdToolExe>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

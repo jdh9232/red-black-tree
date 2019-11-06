@@ -1,7 +1,7 @@
 #include "linkedlist.h"
 
 //양방향 리스트는 추후 과제에 필요할 떄 업데이트 예정
-void Init(List** list)
+void LInit(List** list)
 {
 	(*list) = (List*)malloc(sizeof(List));
 	(*list)->head = NULL;
@@ -40,27 +40,27 @@ ListNode* LGetValue(List* list, int value)
 	return Current;
 }
 
-int LAppend(List** list, int value)
-{
-	ListNode* newNode = NULL;
-	//값이 존재하면 삽입X.
-	if ((*list)->head == NULL)
-	{
-		CreateList(&newNode, value);
-		(*list)->head = newNode;
-		(*list)->tail = newNode;
-	}
-	else
-	{
-		if (LExistValue((*list), value))
-			return false;
-		CreateList(&newNode, value);
-		(*list)->tail->next = newNode;
-		newNode->prev = (*list)->tail;
-		(*list)->tail = newNode;
-	}
-	return true;
-}
+//int LAppend(List** list, int value)
+//{
+//	ListNode* newNode = NULL;
+//	//값이 존재하면 삽입X.
+//	if ((*list)->head == NULL)
+//	{
+//		CreateList(&newNode, value);
+//		(*list)->head = newNode;
+//		(*list)->tail = newNode;
+//	}
+//	else
+//	{
+//		if (LExistValue((*list), value))
+//			return false;
+//		CreateList(&newNode, value);
+//		(*list)->tail->next = newNode;
+//		newNode->prev = (*list)->tail;
+//		(*list)->tail = newNode;
+//	}
+//	return true;
+//}
 
 //정렬하면서 추가
 int LAppendSort(List** list, int value)
@@ -72,6 +72,14 @@ int LAppendSort(List** list, int value)
 		CreateList(&newNode, value);
 		(*list)->head = newNode;
 		(*list)->tail = newNode;
+	}
+	//첫번째 값보다 작으면 중복되는 값은 없음.
+	else if ((*list)->head->data > value)
+	{
+		CreateList(&newNode, value);
+		(*list)->head->prev = newNode;
+		newNode->next = (*list)->head;
+		(*list)->head = newNode;
 	}
 	else
 	{
@@ -93,6 +101,7 @@ int LAppendSort(List** list, int value)
 			(*list)->tail = newNode;
 		traversal->next = newNode;
 	}
+	return true;
 }
 
 void LPrint(List* list)
@@ -105,7 +114,6 @@ void LPrint(List* list)
 		printf("%d ", traversal->data);
 		traversal = traversal->next;
 	}
-	printf("\n");
 }
 int LRemove(List** list, int value)
 {
@@ -135,7 +143,7 @@ void LDestroy(List** list)
 {
 	while ((*list)->head != NULL)
 	{
-		printf("%d - destroyed\n", (*list)->head->data);
+		//printf("%d - destroyed\n", (*list)->head->data);
 		ListNode* tmp = (*list)->head->next;
 		free((*list)->head);
 		(*list)->head = tmp;
@@ -146,7 +154,7 @@ void SDestroy(List** list)
 {
 	if ((*list)->head)
 	{
-		printf("S call LDestroy\n");
+		//printf("S call LDestroy\n");
 		LDestroy(list);
 	}
 	free(*list);

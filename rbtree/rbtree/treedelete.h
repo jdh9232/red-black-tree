@@ -1,10 +1,10 @@
 #ifndef RB_DELETE_H
 #define RB_DELETE_H
 
-#include "common.h"
+#include "rbtree.h"
 #include "treedisplay.h"
 
-void delete_node(Node **, int, const char *);
+void delete_node(Node **, const char *, int);
 void destroy_node(Node **);
 
 void replace_node(Node *, Node *);

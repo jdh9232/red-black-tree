@@ -1,14 +1,28 @@
 #include "treeInsert.h"
 
-void create_node(Node **n, int data, const char *key)
+void create_listnode(List** list, int data)
+{
+	if ((*list) == NULL)
+	{
+		LInit(list);
+	}
+	LAppendSort(list, data);
+}
+
+void create_node(Node **n, const char *key, int data)
 {
 	(*n) = (Node *)malloc(sizeof(Node));
-	(*n)->value = data;
+	//색설정
 	(*n)->color = RED;
+	//키설정
 	(*n)->key = (char *)malloc(sizeof(char)*strlen(key)+1);
 	//strcpy_s(n->key, strlen(key), key);
 	strncpy((*n)->key, key, strlen(key)+1);
 	(*n)->key[strlen(key)] = '\0';
+	//value설정
+	(*n)->values = NULL;
+	create_listnode(&(*n)->values, data);
+
     (*n)->parent = NULL;
     (*n)->left = NULL;
     (*n)->right = NULL;
@@ -16,8 +30,7 @@ void create_node(Node **n, int data, const char *key)
 
 //최종적인 반환은 t이기에	
 //아무리 값이 바뀌었어도 기존 루트노드는 50을 위치하고 있기 때문에 50을 반환할 수밖에 없는 처지가 되어버린다.
-//
-void insert_node(Node **t, int data, const char *key)
+void insert_node(Node **t, const char *key, int data)
 {
     Node *n = NULL;	
     Node *temp = *t; // temporary node.
@@ -25,41 +38,48 @@ void insert_node(Node **t, int data, const char *key)
     // if there is not any node.
     if(temp == NULL)
     {
-		create_node(&n, data, key);
+		create_node(&n, key, data);
         *t  = n;
 		insert_case1(t);
         return;
     }
+	int strv;
     // find the position that new node will be inserted.
     while(true)
     {
-		// key, value 둘 다같으면 메모리를 해제하고 종료한다.
-		if((!strncmp(key, temp->key, strlen(key))) && (temp->value == data))
+		strv = strncmp(temp->key, key, strlen(key));
+		if(strv == STR_EQUAL)
 		{
-			// free(n->key);
-			// free(n);
+			if ((LExistValue(temp->values, data)) == false)
+			{
+				create_listnode(&(temp->values), data);
+			}
 			return;
 		}
-        
-        if(temp->value > data)
+        else if(strv == STR_BIG)   //기존 tree의 key가 key보다 더 크면
 	    {
-			if(!temp->left)
+			if (!temp->left)
+			{
+				create_node(&n, key, data);
 				break;
-            temp = temp->left;
+			}
+			temp = temp->left;
         }
-        else
+        else                       //기존 tree의 key가 key보다 더 작으면
         {
-			if(!temp->right)
+			if (!temp->right)
+			{
+
+				create_node(&n, key, data);
 				break;
+			}
             temp = temp->right;
         }
     }
 
-	create_node(&n, data, key);
-    n->parent = temp;
-
+	n->parent = temp;
     // insert new node in the tree.
-    if((n->parent)->value > data)
+    if((strncmp(n->parent->key, key, strlen(key)) == STR_BIG))
     {
         (n->parent)->left = n;
 		insert_case1(&(n->parent)->left);

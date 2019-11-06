@@ -1,12 +1,12 @@
 #include "treedelete.h"
 
-void delete_node(Node **t, int data, const char *key)
+void delete_node(Node **t, const char *key, int data)
 {
     Node *temp = NULL;
-    Node *p = NULL;
+    //Node *p = NULL;
    
     // find the node that has the data.
-    temp = search_node(*t, data, key);
+    temp = search_node(*t, key, data);
 
     // if there is not data.
     if(temp == NULL)
@@ -84,6 +84,7 @@ void destroy_node(Node **t)
 	{
 		destroy_node(&(*t)->right);
 	}
+	SDestroy(&((*t)->values));
 	free((*t)->key);
 	free(*t);
 	*t = NULL;
@@ -118,7 +119,7 @@ void delete_one_child(Node *n)
 	{
 		if (n->color == BLACK)
 		{
-			delete_case1(n);
+			delete_case1(&n);
 		}
 		free(n);
 		n = NULL;
@@ -135,7 +136,7 @@ void delete_one_child(Node *n)
 			}
 			else
 			{
-				delete_case1(n);
+				delete_case1(&n);
 			}
 		}
 		free(n);
