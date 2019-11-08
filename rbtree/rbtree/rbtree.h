@@ -20,7 +20,7 @@ Referenced - Binary Tree
 https://leeyongjeon.tistory.com/entry/C%EC%96%B8%EC%96%B4-%EC%9D%B4%EC%A7%84-%ED%83%90%EC%83%89-%ED%8A%B8%EB%A6%ACBinary-Search-Trees-in-C
 */
 
-typedef enum { BLACK = 1, RED = -1 } color_t;
+typedef enum { BLACK = 1, RED } color_t;
 
 typedef struct node Node;
 struct node {
@@ -46,7 +46,7 @@ int is_leaf(Node*);
 
 //node rotate
 void rotate_left(Node**);
-void rotateleft(Node*);
+//void rotateleft(Node*);
 void rotate_right(Node**);
 
 //rotate를 통한 Root Change

@@ -149,13 +149,17 @@ void insert_case4(Node **n)
 		rotate_right(&tmp);
 		(n) = &tmp;
 	}
+	LPrint((*n)->values);
 	insert_case5(n);
 }
 void insert_case5(Node **n)
 {
+	//(*n)->color = BLACK;
 	(*n)->parent->color = BLACK;
+	//(*n)->parent->color = RED;
 	Node * g = (*n)->parent->parent;
 	g->color = RED;
+	//g->color = BLACK;
 	//  |  / |
 	//  | /  |
 	//라인을 탔을 때 색 반전 후 오른쪽 회전

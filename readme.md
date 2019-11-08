@@ -30,7 +30,7 @@
 
 * /
 	* linked_list
-		*linked_list
+		* linked_list
 	* rbtree
 		* rbtree
 		* treeInsert(.c .h)

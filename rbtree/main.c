@@ -43,6 +43,8 @@ int main()
 		fgets(buf, sizeof(buf), stdin);
 		buf[strlen(buf) - 1] = null;
 		char* split = strtok(buf, " ");
+		if (split == NULL)
+			continue;
 
 		const char* comstr = split;
 		if (strncmp(comstr, "/quit", strlen(comstr)) == STR_EQUAL ||
