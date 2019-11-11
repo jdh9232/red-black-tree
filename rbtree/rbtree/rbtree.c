@@ -45,7 +45,7 @@ Node* GetSibling(Node* n)
 {
 	if (n == n->parent->left)
 	{
-		return n->parent->left;
+		return n->parent->right;
 	}
 	else
 	{

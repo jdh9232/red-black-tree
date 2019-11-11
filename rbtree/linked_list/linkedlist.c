@@ -104,6 +104,21 @@ int LAppendSort(List** list, int value)
 	return true;
 }
 
+int LSize(List* list)
+{
+	if (list == NULL || list->head == NULL)
+	{
+		return 0;
+	}
+	ListNode* traversal = NULL;
+	int Lcnt = 0;
+	for (traversal = list->head; traversal != NULL; traversal = traversal->next)
+	{
+		Lcnt++;
+	}
+	return Lcnt;
+}
+
 void LPrint(List* list)
 {
 	if (list == NULL || list->head == NULL)

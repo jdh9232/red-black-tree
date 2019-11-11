@@ -41,6 +41,7 @@
     <ClCompile Include="rbtree\treedelete.c" />
     <ClCompile Include="rbtree\treedisplay.c" />
     <ClCompile Include="rbtree\treeInsert.c" />
+    <ClCompile Include="Stack\stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -49,6 +50,7 @@
     <ClInclude Include="rbtree\treedelete.h" />
     <ClInclude Include="rbtree\treedisplay.h" />
     <ClInclude Include="rbtree\treeInsert.h" />
+    <ClInclude Include="Stack\stack.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

@@ -1,66 +1,69 @@
 #include "treedisplay.h"
 
-Node* search_node(Node *t, const char *key, int data)
+Node** search_node(Node** findNode, const char* key, int data)
 {
-	if (t == NULL)
+	if ((*findNode) == NULL)
 		return NULL;
 
 	int strv;
-	while(t != NULL || ((strv = strncmp(t->key, key, strlen(key))) != STR_EQUAL))
-    {
-		if (strv == STR_BIG)
-        {
-            t = t->left;
-        }
-        else
-        {
-            t = t->right;
-        }
-    }
-	if (t != NULL && LExistValue(t->values, data))
+	while ((*findNode) != NULL && ((strv = strncmp((*findNode)->key, key, strlen(key))) != STR_EQUAL))
 	{
-		return t;
+		if (strv == STR_BIG)
+		{
+			(*findNode) = (*findNode)->left;
+		}
+		else
+		{
+			(*findNode) = (*findNode)->right;
+		}
 	}
-    return t;
+	if ((*findNode) != NULL && LExistValue((*findNode)->values, data))
+	{
+		return findNode;
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
-void display_node(Node *t, int depth)
+void display_node(Node* viewNode, int depth)
 {
-    if(t == NULL)
-    {
+	if (viewNode == NULL)
+	{
 		printf("Tree is EMPTY\n");
-        return;
-    }
+		return;
+	}
 	int d;
 	for (d = 0; d < depth; d++)
 	{
 		printf("    ");
 	}
 
-	printf("NODE [\"%s\" | ", t->key);
-	LPrint(t->values);
-	printf("| % s] > ", t->color == RED ? "RED" : "BLACK");
+	printf("NODE [\"%s\" | Size : %d | ", viewNode->key, LSize(viewNode->values));
+	LPrint(viewNode->values);
+	printf("| % s] > ", viewNode->color == RED ? "RED" : "BLACK");
 
-    if(t->left != NULL)
-    {
-		printf("NODE [\"%s\" | ", t->left->key);
-		LPrint(t->left->values);
-		printf("| % s] > ", t->left->color == RED ? "RED" : "BLACK");
-    }
-    if(t->right != NULL)
-    {
-		printf("NODE [\"%s\" | ", t->right->key);
-		LPrint(t->right->values);
-		printf("| % s] > ", t->right->color == RED ? "RED" : "BLACK");
-    }
-    printf("\n");
+	if (viewNode->left != NULL)
+	{
+		printf("NODE [\"%s\" | ", viewNode->left->key);
+		LPrint(viewNode->left->values);
+		printf("| % s] > ", viewNode->left->color == RED ? "RED" : "BLACK");
+	}
+	if (viewNode->right != NULL)
+	{
+		printf("NODE [\"%s\" | ", viewNode->right->key);
+		LPrint(viewNode->right->values);
+		printf("| % s] > ", viewNode->right->color == RED ? "RED" : "BLACK");
+	}
+	printf("\n");
 
-    if(t->left)
-    {
-        display_node(t->left, depth+1);
-    }
-    if(t->right)
-    {
-        display_node(t->right, depth+1);
-    }
+	if (viewNode->left)
+	{
+		display_node(viewNode->left, depth + 1);
+	}
+	if (viewNode->right)
+	{
+		display_node(viewNode->right, depth + 1);
+	}
 }

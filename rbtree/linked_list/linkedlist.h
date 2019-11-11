@@ -32,6 +32,7 @@ int LAppendSort(List**, int);
 int LExistValue(List*, int);
 //ListNode* LGetLEN(List*);
 ListNode* LGetValue(List*, int);
+int LSize(List*);
 void LPrint(List*);
 
 //remove and destroy

@@ -1,107 +1,137 @@
 #include "treedelete.h"
 
-void delete_node(Node **t, const char *key, int data)
+void delete_node(Node** t, const char* key, int data)
 {
-    Node *temp = NULL;
-    //Node *p = NULL;
-   
-    // find the node that has the data.
-    temp = search_node(*t, key, data);
+	Node** temp = NULL;
+	Node* memory = (*t);
+	//Node *p = NULL;
 
-    // if there is not data.
-    if(temp == NULL)
-    {
-        printf("Can't find the data!\n");
-        return;
-    }
+	// find the node that has the data.
+	temp = search_node(t, key, data);
+
+	// if there is not data.
+	if ((*temp) == NULL)
+	{
+		printf("Can't find value!\n");
+		return;
+	}
 	else
 	{
-		delete_one_child(temp);
+		//삭제할 노드에 가장 인접하는 노드를 복사 후 복사된 노드를 제거
+		// List의 Size가 1보다 많으면 List의 value만 제거
+		if (LSize((*temp)->values) > 1)
+		{
+			LRemove(&(*temp)->values, data);
+			return;
+		}
+		//그렇지 않으면 가장 인접하는 key값을 지닌 노드를 복사 후 복사된 노드 제거
+		//같은 값을 가진 key는 존재하지 않음.
+		else
+		{
+			Node* changer = NULL;
+			
+			changer = (*temp)->left;
+			if (changer == NULL)
+			{
+				changer = (*temp)->right;
+				if (changer == NULL)
+				{
+					printf("values : %s\n", (*temp)->key);
+					if ((*temp)->parent->left == (*temp))
+					{
+						printf("Left\n");
+						(*temp)->parent->left = NULL;
+					}
+					else
+					{
+						printf("right\n");
+						(*temp)->parent->right = NULL;
+					}
+					SDestroy(&(*temp)->values);
+					free((*temp)->key);
+					free((*temp));
+					(*temp) = NULL;
+					(*temp) = memory;
+					return;
+				}
+			}
+			while (true)
+			{
+				int strv = strncmp(key, changer->key, strlen(key));
+				//부모 자식의 연결을 해제해주는 코드 작성
+				if (strv == STR_SMALL)
+				{
+					if (changer->left == NULL)
+					{
+						break;
+					}
+					changer = changer->left;
+				}
+				else
+				{
+					if (changer->right == NULL)
+					{
+						break;
+					}
+					changer = changer->right;
+				}
+			}
+			SDestroy(&(*temp)->values);
+			free((*temp)->key);
+			(*temp)->values = changer->values;
+			(*temp)->key = changer->key;
+
+			delete_one_child(changer);
+			(*temp) = memory;
+
+			ChangeRoot(temp);
+			////temp의 왼쪽이 복사된 노드이면
+			//if (temp->left == changer)
+			//{
+			//	temp->left = NULL;
+			//}
+			//else if (temp->right == changer)
+			//{
+			//	temp->right = NULL;
+			//}
+			////temp의 왼쪽 또는 오른쪽에 여러 노드가 존재하면 그대로 놔두기.
+		}
 	}
-
-  //  // if the node that has the data don't have children.
-  //  if(temp->left == NULL && temp->right == NULL)
-  //  {
-		//delete_one_child(temp);
-  //      /*if(temp == *t)
-  //      {
-  //          *t  = NULL;
-  //      }
-  //      else if((temp->parent)->value > data)
-  //      {
-  //          (temp->parent)->left = NULL;
-  //      }
-  //      else
-  //      {
-  //          (temp->parent)->right = NULL;
-  //      }
-
-  //      free(temp);
-		//temp = NULL;*/
-  //  }
-  //  // if the node don't have a left child.
-  //  else if(temp->left == NULL)
-  //  {
-  //      temp->value = (temp->right)->value;
-  //     
-  //      delete_node( &(temp->right), (temp->right)->value, key);
-  //  }
-  //  // if the node don't have a right child.
-  //  else if(temp->right == NULL)
-  //  {
-  //      temp->value = (temp->left)->value;
-  //     
-  //      delete_node( &(temp->left), (temp->left)->value, key);
-  //  }
-  //  else // if the node have children.
-  //  {
-  //      p = temp;
-
-  //      temp = temp->right;
-
-  //      while(temp->left != NULL)
-  //      {
-  //          temp = temp->left;
-  //      }
-
-  //      p->value = temp->value;
-
-  //      delete_node(&(p->right), temp->value, key);
-  //  }
 }
 
-void destroy_node(Node **t)
+void destroy_node(Node** rmNode)
 {
-	if((*t) == NULL)
+	if (!(*rmNode))
 	{
-		return ;
+		return;
 	}
-	if((*t)->left != NULL)
+
+	if ((*rmNode)->left != NULL)
 	{
-		destroy_node(&(*t)->left);
+		destroy_node(&(*rmNode)->left);
 	}
-	if((*t)->right != NULL)
+	if ((*rmNode)->right != NULL)
 	{
-		destroy_node(&(*t)->right);
+		destroy_node(&(*rmNode)->right);
 	}
-	SDestroy(&((*t)->values));
-	free((*t)->key);
-	free(*t);
-	*t = NULL;
+	SDestroy(&((*rmNode)->values));
+	free((*rmNode)->key);
+	free(*rmNode);
+	*rmNode = NULL;
 	//*t = NULL;
-	return ;
+	return;
 }
 
-void replace_node(Node *n, Node *child)
+void replace_node(Node* node, Node* child)
 {
-	child->parent = n->parent;
-	if (n->parent->left == n)
+	child->parent = node->parent;
+	if (node ->parent != NULL && node->parent->left == node)
 	{
-		n->parent->left = child;
+		node->parent->left = child;
 	}
-	else if (n->parent->right == n)
+	else if (node->parent != NULL && node->parent->right == node)
 	{
-		n->parent->right = child;
+		node->parent->right = child;
 	}
 }
 //void replace_node(Node **n, Node *child)
@@ -113,22 +143,33 @@ void replace_node(Node *n, Node *child)
 //		(*n)->parent->right = child;
 //}
 
-void delete_one_child(Node *n)
+void delete_one_child(Node* node)
 {
-	if (n->right == NULL && n->left == NULL)
+	printf("keys : %s\n", node->key);
+	if (node->right == NULL && node->left == NULL)
 	{
-		if (n->color == BLACK)
+		if (node->color == BLACK)
 		{
-			delete_case1(&n);
+			delete_case1(&node);
 		}
-		free(n);
-		n = NULL;
+		if (node->parent->left == node)
+		{
+			node->parent->left = NULL;
+		}
+		else if(node->parent->right == node)
+		{
+			node->parent->right = NULL;
+		}
+		free(node);
+		node = NULL;
 	}
 	else
 	{
-		Node* child = is_leaf(n->right) ? n->left : n->right;
-		replace_node(n, child);
-		if (n->color == BLACK)
+		printf("Start!\n");
+		Node* child = is_leaf(node->right) ? node->left : node->right;
+		printf("keys : %s\n", child->key);
+		replace_node(node, child);
+		if (node->color == BLACK)
 		{
 			if (child->color == RED)
 			{
@@ -136,34 +177,35 @@ void delete_one_child(Node *n)
 			}
 			else
 			{
-				delete_case1(&n);
+				delete_case1(&node);
+				//delete_case1(&child);
 			}
 		}
-		free(n);
-		n = NULL;
+		free(node);
+		node = NULL;
 	}
-	
+
 	//Node *child = is_leaf((*n)->right) ? (*n)->left:(*n)->right;
 }
 
 //루트노드이면
-void delete_case1(Node **n)
+void delete_case1(Node** n)
 {
-	if((*n)->parent != NULL)
+	if ((*n)->parent != NULL)
 	{
 		delete_case2(n);
 	}
 }
 
 //형제가 빨간색인 경우 부모는 무조건 검은색
-void delete_case2(Node **n)
+void delete_case2(Node** n)
 {
-	Node *sib = GetSibling(*n);
-	if(sib->color == RED)
+	Node* sib = GetSibling(*n);
+	if (sib->color == RED)
 	{
 		(*n)->parent->color = RED;
 		sib->color = BLACK;
-		if((*n) == (*n)->parent->left)
+		if ((*n) == (*n)->parent->left)
 		{
 			rotate_left(&(*n)->parent);
 		}
@@ -175,16 +217,17 @@ void delete_case2(Node **n)
 	delete_case3(n);
 }
 
-void delete_case3(Node **n)
+void delete_case3(Node** n)
 {
-	Node *sib = GetSibling(*n);
+	Node* sib = GetSibling(*n);
 	//n의 부모가 BLACK, 형제의 right, left가 BLACK
 	//어떤 노드로부터 시작되어 리프 노드에 도달하는 모든 경로에는 리프 노드를 제외하면 모두 같은 개수의 블랙 노드가 있다.
 	//규칙을 맞춰주기 위하여 S의 색깔을 바꿈.
-	if(((*n)->parent->color == BLACK) && (sib->right->color == BLACK) &&
-        (sib->left->color == BLACK) && (sib->color == BLACK))
+	if (((*n)->parent->color == BLACK) && ((sib->right == NULL) || (sib->right->color == BLACK)) &&
+		((sib->left == NULL) || (sib->left->color == BLACK)) && (sib->color == BLACK))
 	{
 		sib->color = RED;
+		printf("RECURSIVE\n");
 		delete_case1(&(*n)->parent);
 	}
 	else
@@ -193,13 +236,13 @@ void delete_case3(Node **n)
 	}
 }
 
-void delete_case4(Node **n)
+void delete_case4(Node** n)
 {
-	Node *sib = GetSibling(*n);
+	Node* sib = GetSibling(*n);
 	//형제 및 형제의 자식들은 검은색이지만 부모가 빨간색일 때
 	//형제와 부모의 색깔을 바꿈.
-	if((*n)->parent->color == RED  && (sib->right->color == BLACK) &&
-      (sib->left->color == BLACK) && (sib->color == BLACK))
+	if ((*n)->parent->color == RED && ((sib->right == NULL) || (sib->right->color == BLACK)) &&
+		((sib->left == NULL) || (sib->left->color == BLACK)) && (sib->color == BLACK))
 	{
 		sib->color = RED;
 		(*n)->parent->color = BLACK;
@@ -210,28 +253,38 @@ void delete_case4(Node **n)
 	}
 }
 
-void delete_case5(Node **n)
+void delete_case5(Node** n)
 {
-	Node *sib = GetSibling(*n);
-	if(sib->color == BLACK)
+	Node* sib = GetSibling(*n);
+	if (sib->color == BLACK)
 	{
 		/*
 				/\
-		    	 /\
+				 /\
 		*/
 		//형제노드가 검정색, n이 n의 부모노드의 왼쪽일 때
 		//형제노드와 형제노드의 자식을 오른쪽을 몰아줌.
-		if((*n) == (*n)->parent->left)
+		if ((*n) == (*n)->parent->left && 
+			(sib->right == NULL || sib->right->color == BLACK) &&
+			(sib->left != NULL && sib->left->color == RED))
 		{
 			sib->color = RED;
-			sib->left->color = BLACK;
+			if (sib->left != NULL)
+			{
+				sib->left->color = BLACK;
+			}
 			rotate_right(&sib);
 		}
 		//n이 n의 부모노드의 오른쪽에 있을 때 왼쪽으로 몰아줌
-		else if((*n) == (*n)->parent->right)
+		else if ((*n) == (*n)->parent->right &&
+			(sib->left == NULL || sib->left->color == BLACK) &&
+			(sib->right != NULL && sib->right->color == RED))
 		{
 			sib->color = RED;
-			sib->right->color = BLACK;
+			if (sib->right != NULL)
+			{
+				sib->right->color = BLACK;
+			}
 			rotate_left(&sib);
 		}
 	}
@@ -239,18 +292,29 @@ void delete_case5(Node **n)
 	delete_case6(n);
 }
 
-void delete_case6(Node **n)
+void delete_case6(Node** n)
 {
-	Node *sib = GetSibling(*n);
+	printf("n key : %s\n", (*n)->key);
+	Node* sib = GetSibling(*n);
+	printf("sib : %s\n", sib->key);
 
 	sib->color = (*n)->parent->color;
-	
-	if((*n) == (*n)->parent->left)
+	(*n)->parent->color = BLACK;
+
+	if ((*n) == (*n)->parent->left)
 	{
+		if(sib->right != NULL)
+		{
+			sib->right->color = BLACK;
+		}
 		rotate_left(&(*n)->parent);
 	}
 	else
 	{
+		if (sib->left != NULL)
+		{
+			sib->left->color = BLACK;
+		}
 		rotate_right(&(*n)->parent);
 	}
 }
