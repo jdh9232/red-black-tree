@@ -1,5 +1,15 @@
 #include "treeInsert.h"
 
+void create_listnode(List**, int);
+void create_node(Node**, const char*, int);
+void insert_node(Node**, const char*, int);
+
+void insert_case1(Node**);
+void insert_case2(Node**);
+void insert_case3(Node**);
+void insert_case4(Node**);
+void insert_case5(Node**);
+
 void create_listnode(List** list, int data)
 {
 	if ((*list) == NULL)

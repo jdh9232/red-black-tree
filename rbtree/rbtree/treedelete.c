@@ -1,5 +1,15 @@
 #include "treedelete.h"
 
+void replace_node(Node*, Node*);
+void delete_one_child(Node*);
+
+void delete_case1(Node**);
+void delete_case2(Node**);
+void delete_case3(Node**);
+void delete_case4(Node**);
+void delete_case5(Node**);
+void delete_case6(Node**);
+
 void delete_node(Node** t, const char* key, int data)
 {
 	Node** temp = NULL;
@@ -12,7 +22,7 @@ void delete_node(Node** t, const char* key, int data)
 	// if there is not data.
 	if ((*temp) == NULL)
 	{
-		printf("Can't find value!\n");
+		printf("해당 키 또는 값이 존재하지 않습니다.\n");
 		return;
 	}
 	else
@@ -36,15 +46,12 @@ void delete_node(Node** t, const char* key, int data)
 				changer = (*temp)->right;
 				if (changer == NULL)
 				{
-					printf("values : %s\n", (*temp)->key);
 					if ((*temp)->parent->left == (*temp))
 					{
-						printf("Left\n");
 						(*temp)->parent->left = NULL;
 					}
 					else
 					{
-						printf("right\n");
 						(*temp)->parent->right = NULL;
 					}
 					SDestroy(&(*temp)->values);
@@ -96,6 +103,7 @@ void delete_node(Node** t, const char* key, int data)
 			//}
 			////temp의 왼쪽 또는 오른쪽에 여러 노드가 존재하면 그대로 놔두기.
 		}
+		printf("삭제 성공!\n");
 	}
 }
 
@@ -145,7 +153,6 @@ void replace_node(Node* node, Node* child)
 
 void delete_one_child(Node* node)
 {
-	printf("keys : %s\n", node->key);
 	if (node->right == NULL && node->left == NULL)
 	{
 		if (node->color == BLACK)
@@ -165,9 +172,7 @@ void delete_one_child(Node* node)
 	}
 	else
 	{
-		printf("Start!\n");
 		Node* child = is_leaf(node->right) ? node->left : node->right;
-		printf("keys : %s\n", child->key);
 		replace_node(node, child);
 		if (node->color == BLACK)
 		{
@@ -227,7 +232,6 @@ void delete_case3(Node** n)
 		((sib->left == NULL) || (sib->left->color == BLACK)) && (sib->color == BLACK))
 	{
 		sib->color = RED;
-		printf("RECURSIVE\n");
 		delete_case1(&(*n)->parent);
 	}
 	else
@@ -294,9 +298,7 @@ void delete_case5(Node** n)
 
 void delete_case6(Node** n)
 {
-	printf("n key : %s\n", (*n)->key);
 	Node* sib = GetSibling(*n);
-	printf("sib : %s\n", sib->key);
 
 	sib->color = (*n)->parent->color;
 	(*n)->parent->color = BLACK;

@@ -38,3 +38,11 @@
 		* treedisplay(.c .h)
 	* main.c
 	* common(.c .h)
+
+----------------------------
+
+* Reference
+	* https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
+	* https://ko.wikipedia.org/wiki/레드-블랙_트리
+	* https://stackoverflow.com/questions/41091382/how-to-print-in-console-a-tree-horizontally-with-links-using-c
+	* https://en.wikipedia.org/wiki/Red%E2%80%93black_tree

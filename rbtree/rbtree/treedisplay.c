@@ -67,3 +67,75 @@ void display_node(Node* viewNode, int depth)
 		display_node(viewNode->right, depth + 1);
 	}
 }
+
+void draw_tree_hor2(Node* tree, int depth, char* path, int right)
+{
+	// stopping condition
+	if (tree == NULL)
+		return;
+
+	// increase spacing
+	depth++;
+
+	// start with right node
+	draw_tree_hor2(tree->right, depth, path, 1);
+
+	// set | draw map
+	path[depth - 2] = 0;
+
+	if (right)
+		path[depth - 2] = 1;
+
+	if (tree->left)
+		path[depth - 1] = 1;
+
+	// print root after spacing
+	printf("\n");
+
+	for (int i = 0; i < depth - 1; i++)
+	{
+		if (i == depth - 2)
+			printf("+");
+		else if (path[i])
+			printf("|");
+		else
+			printf(" ");
+
+		for (int j = 1; j < space; j++)
+			if (i < depth - 2)
+				printf(" ");
+			else
+				printf("-");
+	}
+
+	printf("%s/%s/%d\n", tree->key, tree->color == BLACK ? "B" : "R", LSize(tree->values));
+
+	// vertical spacers below
+	for (int i = 0; i < depth; i++)
+	{
+		if (path[i])
+			printf("|");
+		else
+			printf(" ");
+
+		for (int j = 1; j < space; j++)
+			printf(" ");
+	}
+
+	// go to left node
+	draw_tree_hor2(tree->left, depth, path, 0);
+}
+
+//primary fuction
+void draw_tree_hor(Node* tree)
+{
+	// should check if we don't exceed this somehow..
+	char path[255] = {};
+	if (tree == NULL)
+	{
+		printf("Tree is EMPTY\n");
+		return;
+	}
+	//initial depth is 0
+	draw_tree_hor2(tree, 0, path, 0);
+}
