@@ -6,14 +6,13 @@ typedef struct stack Stack;
 struct stack
 {
 	Node* node;
-	int depth;
-	Node* before;
+	Stack* before;
 };
 
 void InitStack(Stack **);
-void AddStack(Stack **);
+void PushStack(Stack **, Node *);
 
 void PrintStack(Stack *);
 
-void DeleteStack(Stack **);
+int PopStack(Stack **);
 void DestroyStack(Stack **);

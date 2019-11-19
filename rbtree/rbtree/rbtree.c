@@ -43,7 +43,11 @@ Node* GetUncle(Node* n)
 
 Node* GetSibling(Node* n)
 {
-	if (n == n->parent->left)
+	if (n->parent == NULL)
+	{
+		return NULL;
+	}
+	else if (n == n->parent->left)
 	{
 		return n->parent->right;
 	}

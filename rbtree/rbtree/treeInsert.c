@@ -4,11 +4,12 @@ void create_listnode(List**, int);
 void create_node(Node**, const char*, int);
 void insert_node(Node**, const char*, int);
 
-void insert_case1(Node**);
-void insert_case2(Node**);
-void insert_case3(Node**);
-void insert_case4(Node**);
-void insert_case5(Node**);
+void InsertCase(Node**);
+// void InsertCase1(Node**);
+// void InsertCase2(Node**);
+//void InsertCase3(Node**);
+//void InsertCase4(Node**);
+//void InsertCase5(Node**);
 
 void create_listnode(List** list, int data)
 {
@@ -40,17 +41,17 @@ void create_node(Node** n, const char* key, int data)
 
 //최종적인 반환은 t이기에	
 //아무리 값이 바뀌었어도 기존 루트노드는 50을 위치하고 있기 때문에 50을 반환할 수밖에 없는 처지가 되어버린다.
-void insert_node(Node** t, const char* key, int data)
+void insert_node(Node** root, const char* key, int data)
 {
 	Node* n = NULL;
-	Node* temp = *t; // temporary node.
+	Node* temp = *root; // temporary node.
 
 	// if there is not any node.
 	if (temp == NULL)
 	{
 		create_node(&n, key, data);
-		*t = n;
-		insert_case1(t);
+		*root = n;
+		InsertCase(root);
 		return;
 	}
 	int strv;
@@ -92,87 +93,65 @@ void insert_node(Node** t, const char* key, int data)
 	if ((strncmp(key, n->parent->key, strlen(key)) == STR_SMALL))
 	{
 		(n->parent)->left = n;
-		insert_case1(&(n->parent)->left);
-		ChangeRoot(t);
+		InsertCase(&(n->parent)->left);
+		ChangeRoot(root);
 	}
 	else
 	{
 		(n->parent)->right = n;
-		insert_case1(&(n->parent)->right);
-		ChangeRoot(t);
+		InsertCase(&(n->parent)->right);
+		ChangeRoot(root);
 	}
 }
 
-void insert_case1(Node** n)
+void InsertCase(Node** n)
 {
-	if ((*n)->parent == NULL)
+	Node* node = (*n);
+	while(true)
 	{
-		(*n)->color = BLACK;
+		//case 1
+		if (node->parent == NULL)
+		{
+			node->color = BLACK;
+			return;
+		}
+		//case 2
+		if (node->parent->color == BLACK)
+			return;
+		//case 3
+		if (GetUncle(node) != NULL && GetUncle(node)->color == RED)
+		{
+			node->parent->color = BLACK;
+			GetUncle(node)->color = BLACK;
+			GetGrandParent(node)->color = RED;
+			node = node->parent->parent;
+		}
+		else
+		{
+			break;
+		}
 	}
-	else
+	//case 4
+	if ((node == node->parent->right) && (node->parent == GetGrandParent(node)->left))
 	{
-		insert_case2(n);
-	}
-
-}
-void insert_case2(Node** n)
-{
-	if ((*n)->parent->color == BLACK)
-		return; /* Tree is still valid */
-	else
-		insert_case3(n);
-}
-void insert_case3(Node** n)
-{
-	if (GetUncle(*n) != NULL && GetUncle(*n)->color == RED)
-	{
-		(*n)->parent->color = BLACK;
-		GetUncle(*n)->color = BLACK;
-		GetGrandParent(*n)->color = RED;
-		insert_case1(&(*n)->parent->parent);
-	}
-	else
-	{
-		insert_case4(n);
-	}
-}
-void insert_case4(Node** n)
-{
-	//   | / |
-	//   | \ |
-	//라인을 탔을 떄 부모를 중심으로 왼쪽회전
-	if (((*n) == (*n)->parent->right) && ((*n)->parent == GetGrandParent(*n)->left))
-	{
-		//n이 아니다... 즉 잘못된 코드
-		//n -> (*n) -> (*n)->parent
-		//& ((*n)->parent) 인 것인데 이것은 n이 아니다...
-		Node* tmp = (*n)->parent;
+		Node* tmp = node->parent;
 		rotate_left(&tmp);
-		(n) = &tmp;
+		node = tmp;
 	}
-	//   | \ |
-	//   | / |
-	//라인을 탔을 때 부모를 중심으로 오른쪽 회전
-	else if ((*n) == (*n)->parent->left && (*n)->parent == GetGrandParent(*n)->right)
+	else if (node == node->parent->left && node->parent == GetGrandParent(node)->right)
 	{
-		Node* tmp = (*n)->parent;
+		Node* tmp = node->parent;
 		rotate_right(&tmp);
-		(n) = &tmp;
+		node = tmp;
 	}
-	insert_case5(n);
-}
-void insert_case5(Node** n)
-{
-	//(*n)->color = BLACK;
-	(*n)->parent->color = BLACK;
-	//(*n)->parent->color = RED;
-	Node* g = (*n)->parent->parent;
+	Node* g = GetGrandParent(node);
 	g->color = RED;
+	node->parent->color = BLACK;
 	//g->color = BLACK;
 	//  |  / |
 	//  | /  |
 	//라인을 탔을 때 색 반전 후 오른쪽 회전
-	if ((*n) == (*n)->parent->left && (*n)->parent == GetGrandParent(*n)->left)
+	if (node == node->parent->left && node->parent == g->left)
 	{
 		rotate_right(&g);
 		//g = g -> parent;
@@ -181,9 +160,9 @@ void insert_case5(Node** n)
 	//  | \  |
 	//  |  \ |
 	//라인을 탔을 때 색 반전 후 왼쪽 회전
-	//(*n) == (*n)->parent->right && (*n)->parent == GetGrandParent(*n)->right
-	else
+	else if (node == node->parent->right && node->parent == g->right)
 	{
 		rotate_left(&g);
 	}
+
 }

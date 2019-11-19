@@ -17,7 +17,8 @@ int main()
 	draw_tree_hor(node);
 	delete_node(&node, "016", 1);
 	draw_tree_hor(node);
-	destroy_node(&node);
+	//destroy_node(&node);
+	destroy_node_stack(&node);
 	return 0;
 
 	//insert_node(&node, "a", 1);  //1

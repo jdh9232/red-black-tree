@@ -167,7 +167,7 @@ void LDestroy(List** list)
 }
 void SDestroy(List** list)
 {
-	if ((*list)->head)
+	if ((*list) && (*list)->head)
 	{
 		//printf("S call LDestroy\n");
 		LDestroy(list);
